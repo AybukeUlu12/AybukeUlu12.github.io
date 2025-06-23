@@ -1,0 +1,47 @@
+/*
+    This CSS file is for any specific custom styles that go beyond Tailwind CSS.
+    For this application, most styling is handled by Tailwind classes directly in index.html.
+    This file primarily serves to fulfill the "separate files for each" requirement.
+*/
+
+/* Basic body styling (can also be done with Tailwind) */
+body {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom styles for form radio buttons if default Tailwind styles are insufficient */
+/* Example: Customizing radio button appearance (already handled by Tailwind's form-radio) */
+/*
+input[type="radio"].form-radio {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+input[type="radio"].form-radio::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 120ms ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    background-color: CanvasText;
+}
+
+input[type="radio"].form-radio:checked::before {
+    transform: scale(1);
+}
+*/

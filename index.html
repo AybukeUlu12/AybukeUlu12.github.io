@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Should I Eat?</title>
+    <!-- Tailwind CSS CDN for easy styling and responsiveness -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to custom CSS for any specific overrides or additions -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts - Inter for a clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-8">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">What Should I Eat? 🤔</h1>
+
+        <!-- Section 1: Are you outside right now? -->
+        <div class="question-section p-6 bg-blue-50 rounded-xl shadow-md border border-blue-200">
+            <label class="block text-xl font-semibold text-gray-700 mb-4">Are you outside right now?</label>
+            <div class="flex space-x-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="outside" value="yes" class="form-radio h-5 w-5 text-blue-600 rounded-full focus:ring-blue-500">
+                    <span class="ml-2 text-lg text-gray-800">Yes</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="outside" value="no" class="form-radio h-5 w-5 text-blue-600 rounded-full focus:ring-blue-500">
+                    <span class="ml-2 text-lg text-gray-800">No</span>
+                </label>
+            </div>
+            <p id="outside-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+        </div>
+
+        <!-- Section 2: Is there a restaurant nearby? (Conditional - displayed if 'outside' is 'yes') -->
+        <div id="restaurant-nearby-section" class="question-section p-6 bg-green-50 rounded-xl shadow-md border border-green-200 hidden">
+            <label class="block text-xl font-semibold text-gray-700 mb-4">Is there a restaurant nearby?</label>
+            <div class="flex space-x-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="restaurantNearby" value="yes" class="form-radio h-5 w-5 text-green-600 rounded-full focus:ring-green-500">
+                    <span class="ml-2 text-lg text-gray-800">Yes</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="restaurantNearby" value="no" class="form-radio h-5 w-5 text-green-600 rounded-full focus:ring-green-500">
+                    <span class="ml-2 text-lg text-gray-800">No</span>
+                </label>
+            </div>
+            <p id="restaurant-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+        </div>
+
+        <!-- Section 3: Do you have enough ingredients at home? (Conditional - displayed if 'outside' is 'no') -->
+        <div id="ingredients-at-home-section" class="question-section p-6 bg-yellow-50 rounded-xl shadow-md border border-yellow-200 hidden">
+            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you have enough ingredients at home?</label>
+            <div class="flex space-x-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="ingredientsHome" value="yes" class="form-radio h-5 w-5 text-yellow-600 rounded-full focus:ring-yellow-500">
+                    <span class="ml-2 text-lg text-gray-800">Yes</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="ingredientsHome" value="no" class="form-radio h-5 w-5 text-yellow-600 rounded-full focus:ring-yellow-500">
+                    <span class="ml-2 text-lg text-gray-800">No</span>
+                </label>
+            </div>
+            <p id="ingredients-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+        </div>
+
+        <!-- Section 4: Do you need to eat quickly? -->
+        <div class="question-section p-6 bg-red-50 rounded-xl shadow-md border border-red-200">
+            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you need to eat quickly? (Under 15 minutes)</label>
+            <div class="flex space-x-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="hurry" value="yes" class="form-radio h-5 w-5 text-red-600 rounded-full focus:ring-red-500">
+                    <span class="ml-2 text-lg text-gray-800">Yes</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="hurry" value="no" class="form-radio h-5 w-5 text-red-600 rounded-full focus:ring-red-500">
+                    <span class="ml-2 text-lg text-gray-800">No</span>
+                </label>
+            </div>
+            <p id="hurry-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+        </div>
+
+        <!-- Section 5: Do you have a diet preference? -->
+        <div class="question-section p-6 bg-purple-50 rounded-xl shadow-md border border-purple-200">
+            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you have a diet preference?</label>
+            <div class="flex flex-wrap gap-4">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="dietPreference" value="none" checked class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
+                    <span class="ml-2 text-lg text-gray-800">No Preference</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="dietPreference" value="vegetarian" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
+                    <span class="ml-2 text-lg text-gray-800">Vegetarian</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="dietPreference" value="vegan" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
+                    <span class="ml-2 text-lg text-gray-800">Vegan</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="dietPreference" value="gluten-free" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
+                    <span class="ml-2 text-lg text-gray-800">Gluten-Free</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="dietPreference" value="keto" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
+                    <span class="ml-2 text-lg text-gray-800">Keto</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Get Suggestion Button -->
+        <button id="getSuggestionBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+            Get My Meal Suggestion
+        </button>
+
+        <!-- Suggestion Display Area -->
+        <div id="suggestion-output" class="mt-8 p-6 bg-gray-50 rounded-xl shadow-inner border border-gray-200 hidden">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Meal Suggestion:</h2>
+            <div id="suggestion-content" class="text-lg text-gray-700 leading-relaxed">
+                <!-- Suggestion will be displayed here -->
+            </div>
+            <div id="error-message" class="text-red-600 font-medium mt-4 hidden">
+                Please answer all required questions to get a suggestion.
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
