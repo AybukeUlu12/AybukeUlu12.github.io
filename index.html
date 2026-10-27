@@ -1,138 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Should I Eat?</title>
-    <!-- Tailwind CSS CDN for easy styling and responsiveness -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Link to custom CSS for any specific overrides or additions -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts - Inter for a clean look -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nail Studio — Design Your Nails</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
-<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full space-y-8">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">What Should I Eat? 🤔</h1>
-
-        <!-- Section 1: Are you outside right now? -->
-        <div class="question-section p-6 bg-blue-50 rounded-xl shadow-md border border-blue-200">
-            <label class="block text-xl font-semibold text-gray-700 mb-4">Are you outside right now?</label>
-            <div class="flex space-x-6">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="outside" value="yes" class="form-radio h-5 w-5 text-blue-600 rounded-full focus:ring-blue-500">
-                    <span class="ml-2 text-lg text-gray-800">Yes</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="outside" value="no" class="form-radio h-5 w-5 text-blue-600 rounded-full focus:ring-blue-500">
-                    <span class="ml-2 text-lg text-gray-800">No</span>
-                </label>
+<body>
+  <div class="shell">
+    <header class="topbar"><span class="brand-mark">✿</span><span class="brand">nail studio<span class="brand-dot">.</span></span><span class="top-note">YOUR LITTLE CREATIVE CORNER ✧</span></header>
+    <main>
+      <section class="intro"><p class="eyebrow">✦ WELCOME TO YOUR VIRTUAL SALON ✦</p><h1>Little details, <em>big personality.</em></h1><p>Pick a nail, find your colour, add a little sparkle. Make it yours.</p></section>
+      <section class="workspace" aria-label="Nail design studio">
+        <div class="preview-panel">
+          <div class="panel-top"><span class="section-tag">01 / YOUR CANVAS</span><span class="sparkle">✧ &nbsp; ♡ &nbsp; ✧</span></div>
+          <div class="mode-wrap"><span class="control-label">STUDIO MODE</span><div class="mode-switch" role="group" aria-label="Studio mode"><button type="button" class="mode active" data-mode="free" aria-pressed="true">✦ Free Mode <small>3 charms</small></button><button type="button" class="mode" data-mode="limited" aria-pressed="false">♡ Limited Mode <small>1 charm</small></button></div></div>
+          <div class="hand-stage"><span class="stage-doodle doodle-a">✳</span><span class="stage-doodle doodle-b">✦</span><span class="stage-doodle doodle-c">♡</span>
+            <div class="hand-art" aria-label="Illustrated hand with five individually selectable nails">
+              <svg class="hand-base" viewBox="0 0 390 430" aria-hidden="true" focusable="false"><defs><linearGradient id="skin" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#f9d8c9"/><stop offset="1" stop-color="#eeb7a6"/></linearGradient></defs><path d="M112 430 C106 399 92 366 74 340 L29 284 C12 261 22 242 39 240 C49 238 59 245 67 254 L114 308 L108 143 C107 120 118 111 132 111 C147 111 154 123 155 142 L162 283 L161 79 C161 55 172 43 189 43 C207 43 217 57 217 80 L217 281 L220 113 C220 89 233 78 249 80 C265 82 273 96 272 117 L263 288 L278 167 C281 144 294 135 308 139 C325 143 330 159 326 180 L307 326 C324 303 341 298 354 309 C371 324 358 347 344 369 L313 430 Z" fill="url(#skin)" stroke="#db9c8e" stroke-width="2.7" stroke-linejoin="round"/><path d="M119 331 Q140 345 159 339 M201 347 Q219 353 239 345 M270 348 Q286 353 299 340" fill="none" stroke="#dba194" stroke-width="1.6" opacity=".5"/></svg>
+              <div class="nail-slots" id="nailSlots" role="group" aria-label="Select a nail"></div>
             </div>
-            <p id="outside-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+            <div class="hand-caption">♡ &nbsp; TAP A NAIL TO GET STARTED &nbsp; ♡</div>
+          </div>
+          <div class="preview-footer"><span id="selectedLabel">Selected: Thumb</span><span id="capacityLabel">Decorations: 0 / 3</span></div>
         </div>
-
-        <!-- Section 2: Is there a restaurant nearby? (Conditional - displayed if 'outside' is 'yes') -->
-        <div id="restaurant-nearby-section" class="question-section p-6 bg-green-50 rounded-xl shadow-md border border-green-200 hidden">
-            <label class="block text-xl font-semibold text-gray-700 mb-4">Is there a restaurant nearby?</label>
-            <div class="flex space-x-6">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="restaurantNearby" value="yes" class="form-radio h-5 w-5 text-green-600 rounded-full focus:ring-green-500">
-                    <span class="ml-2 text-lg text-gray-800">Yes</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="restaurantNearby" value="no" class="form-radio h-5 w-5 text-green-600 rounded-full focus:ring-green-500">
-                    <span class="ml-2 text-lg text-gray-800">No</span>
-                </label>
-            </div>
-            <p id="restaurant-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
+        <div class="tools-panel"><div class="panel-top"><span class="section-tag">02 / THE FUN PART</span><span class="tools-flower">✿</span></div><h2>Let's get <em>creative!</em></h2><p class="tools-intro">Everything you need for your dream mani.</p>
+          <section class="tool-section"><div class="tool-heading"><span class="step">01</span><h3>Pick a colour</h3></div><div class="swatches" id="colourOptions" role="group" aria-label="Nail colours"></div></section>
+          <section class="tool-section"><div class="tool-heading"><span class="step">02</span><h3>Choose a shape</h3></div><div class="shape-options" id="shapeOptions" role="group" aria-label="Nail shapes"></div></section>
+          <section class="tool-section"><div class="tool-heading"><span class="step">03</span><h3>Add some charm</h3></div><p class="hint">Choose a charm, then choose Top, Middle or Bottom. You can reuse a charm on different nails.</p><div class="charm-options" id="charmOptions" role="group" aria-label="Nail decorations"></div><div class="position-options" id="positionOptions" role="group" aria-label="Charm position"></div><button type="button" class="text-button" id="removeCharm">Remove last charm</button></section>
+          <div class="feedback" id="feedback" role="status" aria-live="polite">Choose a nail and start creating! ♡</div>
+          <div class="actions"><button type="button" id="cancelSelection" class="secondary-btn">Cancel Selection</button><button type="button" id="resetDesign" class="primary-btn">↻ Reset Design</button></div>
         </div>
-
-        <!-- Section 3: Do you have enough ingredients at home? (Conditional - displayed if 'outside' is 'no') -->
-        <div id="ingredients-at-home-section" class="question-section p-6 bg-yellow-50 rounded-xl shadow-md border border-yellow-200 hidden">
-            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you have enough ingredients at home?</label>
-            <div class="flex space-x-6">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="ingredientsHome" value="yes" class="form-radio h-5 w-5 text-yellow-600 rounded-full focus:ring-yellow-500">
-                    <span class="ml-2 text-lg text-gray-800">Yes</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="ingredientsHome" value="no" class="form-radio h-5 w-5 text-yellow-600 rounded-full focus:ring-yellow-500">
-                    <span class="ml-2 text-lg text-gray-800">No</span>
-                </label>
-            </div>
-            <p id="ingredients-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
-        </div>
-
-        <!-- Section 4: Do you need to eat quickly? -->
-        <div class="question-section p-6 bg-red-50 rounded-xl shadow-md border border-red-200">
-            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you need to eat quickly? (Under 15 minutes)</label>
-            <div class="flex space-x-6">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="hurry" value="yes" class="form-radio h-5 w-5 text-red-600 rounded-full focus:ring-red-500">
-                    <span class="ml-2 text-lg text-gray-800">Yes</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="hurry" value="no" class="form-radio h-5 w-5 text-red-600 rounded-full focus:ring-red-500">
-                    <span class="ml-2 text-lg text-gray-800">No</span>
-                </label>
-            </div>
-            <p id="hurry-error" class="text-red-500 text-sm mt-2 hidden">Please select an option.</p>
-        </div>
-
-        <!-- Section 5: Do you have a diet preference? -->
-        <div class="question-section p-6 bg-purple-50 rounded-xl shadow-md border border-purple-200">
-            <label class="block text-xl font-semibold text-gray-700 mb-4">Do you have a diet preference?</label>
-            <div class="flex flex-wrap gap-4">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="dietPreference" value="none" checked class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
-                    <span class="ml-2 text-lg text-gray-800">No Preference</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="dietPreference" value="vegetarian" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
-                    <span class="ml-2 text-lg text-gray-800">Vegetarian</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="dietPreference" value="vegan" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
-                    <span class="ml-2 text-lg text-gray-800">Vegan</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="dietPreference" value="gluten-free" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
-                    <span class="ml-2 text-lg text-gray-800">Gluten-Free</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="dietPreference" value="keto" class="form-radio h-5 w-5 text-purple-600 rounded-full focus:ring-purple-500">
-                    <span class="ml-2 text-lg text-gray-800">Keto</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Get Suggestion Button -->
-        <button id="getSuggestionBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
-            Get My Meal Suggestion
-        </button>
-
-        <!-- Suggestion Display Area -->
-        <div id="suggestion-output" class="mt-8 p-6 bg-gray-50 rounded-xl shadow-inner border border-gray-200 hidden">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Meal Suggestion:</h2>
-            <div id="suggestion-content" class="text-lg text-gray-700 leading-relaxed">
-                <!-- Suggestion will be displayed here -->
-            </div>
-            <div id="error-message" class="text-red-600 font-medium mt-4 hidden">
-                Please answer all required questions to get a suggestion.
-            </div>
-        </div>
-    </div>
-
-    <!-- Link to JavaScript file -->
-    <script src="script.js"></script>
+      </section>
+      <section class="reflection"><span class="section-tag">03 / THINK ABOUT IT</span><h2>How much is <em>your choice?</em></h2><p>Try both modes. The colours and tools stay the same, but the decoration rule changes. How does that affect your creative decisions?</p><div class="reflection-pills"><span>YOU CHOOSE THE DESIGN</span><span>THE SYSTEM SETS THE LIMITS</span></div></section>
+    </main>
+    <footer>MADE WITH ♡ & A LITTLE BIT OF SPARKLE <span>NAIL STUDIO ©</span></footer>
+  </div>
 </body>
 </html>
-
-
-
-

@@ -1,47 +1,13 @@
-/*
-    This CSS file is for any specific custom styles that go beyond Tailwind CSS.
-    For this application, most styling is handled by Tailwind classes directly in index.html.
-    This file primarily serves to fulfill the "separate files for each" requirement.
-*/
+:root{font-family:Arial,Helvetica,sans-serif;color:#493039;background:#fff9f7;font-synthesis:none}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 10%,#ffe8ee 0,transparent 35%),#fff9f7}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #9a3f73;outline-offset:3px}.shell{max-width:1190px;margin:auto;padding:0 28px}.topbar{height:82px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #efdfe0}.brand-mark{font-size:29px;color:#db6f9d}.brand{font-size:25px;font-weight:800;letter-spacing:-1.3px}.brand-dot{color:#e486ab}.top-note{margin-left:auto;color:#ab8492;letter-spacing:2px;font-size:10px;font-weight:700}.intro{text-align:center;padding:43px 0 35px}.eyebrow,.section-tag,.control-label{font-size:10px;letter-spacing:2px;font-weight:800;color:#b56d89}.intro h1{font-family:Georgia,serif;font-size:clamp(35px,5vw,58px);letter-spacing:-2px;font-weight:400;margin:13px 0}.intro h1 em,.tools-panel h2 em,.reflection h2 em{color:#d77a9e;font-weight:400}.intro p:last-child,.tools-intro{color:#947d84;font-size:14px}.workspace{display:grid;grid-template-columns:1.07fr .93fr;gap:20px;align-items:stretch}.preview-panel,.tools-panel{border:1px solid #f1dfe3;border-radius:20px;background:white;box-shadow:0 15px 45px #c98ca01a;padding:25px;min-width:0}.preview-panel{background:#fff5f6}.panel-top{display:flex;align-items:center;justify-content:space-between}.sparkle,.tools-flower{color:#d98ba7;font-size:24px}.mode-wrap{margin-top:21px}.control-label{display:block;margin-bottom:9px}.mode-switch{display:flex;background:#f8e6eb;border-radius:12px;padding:5px;gap:5px}.mode{flex:1;border:0;background:transparent;color:#a07b88;border-radius:9px;padding:11px 6px;font-size:13px;font-weight:800}.mode small{display:block;font-size:10px;font-weight:400;margin-top:3px}.mode.active{background:#fff;box-shadow:0 2px 9px #a76b7c2a;color:#ad4c76}.hand-stage{height:450px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 48%,#ffebef 0,#fff5f6 70%);border-radius:14px;margin-top:18px}.hand-art{width:min(100%,390px);height:430px;position:relative;transform:translateY(25px)}.hand-base{width:100%;height:100%}.nail-slots{position:absolute;inset:0}.nail{position:absolute;width:37px;height:63px;transform:translate(-50%,-50%);border:2px solid #d99b91;border-radius:45% 45% 36% 36%;background:var(--nail-colour);box-shadow:inset 0 6px 10px #ffffff55,0 2px 5px #98596a38;display:flex;align-items:center;justify-content:center;padding:0;transition:background .18s,border-radius .18s,box-shadow .18s;overflow:hidden}.nail.selected{outline:3px solid #bd5d8d;outline-offset:4px}.nail[data-shape="square"]{border-radius:8px 8px 5px 5px}.nail[data-shape="almond"]{border-radius:48% 48% 45% 45% / 65% 65% 25% 25%}.nail[data-shape="round"]{border-radius:45% 45% 38% 38%}.nail .charm{position:absolute;line-height:1;font-size:15px;text-shadow:0 1px 2px #ffffffb0;pointer-events:none}.charm[data-position="top"]{top:10%}.charm[data-position="middle"]{top:39%}.charm[data-position="bottom"]{top:69%}.stage-doodle{position:absolute;color:#e7a4bd;font-size:32px}.doodle-a{left:10%;top:20%}.doodle-b{right:12%;top:33%}.doodle-c{left:16%;bottom:24%}.hand-caption{position:absolute;bottom:9px;left:0;right:0;text-align:center;font-size:10px;font-weight:800;letter-spacing:2px;color:#b77994}.preview-footer{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#9a7181;margin-top:18px;font-weight:700}.tools-panel h2{font:normal 35px Georgia,serif;letter-spacing:-1px;margin:20px 0 7px}.tools-intro{margin:0 0 21px}.tool-section{border-top:1px solid #f1e4e5;padding:19px 0 17px}.tool-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}.step{background:#fce9ef;color:#c56c90;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800}.tool-heading h3{font-size:15px;margin:0}.swatches{display:flex;flex-wrap:wrap;gap:11px}.swatch{width:38px;height:38px;border-radius:50%;border:3px solid white;background:var(--swatch);box-shadow:0 0 0 1px #ead7dd}.swatch.active{box-shadow:0 0 0 3px #c56c90}.shape-options,.charm-options,.position-options{display:flex;gap:8px;flex-wrap:wrap}.choice{border:1px solid #eedde1;background:#fffafb;color:#8e6a7b;border-radius:10px;padding:10px 13px;font-size:12px;font-weight:700}.choice.active{background:#fce6ed;border-color:#cc80a0;color:#a84873}.charm-choice{min-width:74px;display:flex;flex-direction:column;align-items:center;gap:5px}.charm-icon{font-size:20px}.hint{color:#9b818a;font-size:12px;margin:-3px 0 12px}.position-options{margin-top:12px}.position-options .choice{padding:8px 12px}.text-button{border:0;background:none;text-decoration:underline;color:#a8577b;font-size:12px;margin-top:13px;padding:4px 0}.feedback{background:#fff1f5;border:1px solid #f4d9e3;border-radius:10px;color:#9e5877;padding:12px;font-size:12px;min-height:42px;line-height:1.4}.actions{display:flex;gap:10px;margin-top:16px}.actions button{flex:1;border-radius:10px;padding:13px 8px;font-size:12px;font-weight:800}.secondary-btn{background:white;color:#a15d7a;border:1px solid #e9cbd6}.primary-btn{background:#c76e96;color:white;border:1px solid #c76e96}.reflection{text-align:center;margin:40px auto 45px;max-width:700px}.reflection h2{font:normal 35px Georgia,serif;margin:13px 0}.reflection p{font-size:14px;line-height:1.8;color:#937c85}.reflection-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}.reflection-pills span{border:1px solid #ebd4df;border-radius:99px;padding:10px 15px;font-size:10px;letter-spacing:1px;font-weight:800;color:#b36b8a}footer{display:flex;justify-content:space-between;border-top:1px solid #efdfe0;padding:22px 0 28px;color:#b99ba7;font-size:10px;letter-spacing:1.5px;font-weight:700}@media(max-width:850px){.workspace{grid-template-columns:1fr}.hand-stage{height:450px}.tools-panel{padding:23px}}@media(max-width:480px){.shell{padding:0 14px}.topbar{height:66px}.top-note{font-size:8px;letter-spacing:1px}.brand{font-size:22px}.intro{padding:32px 0 26px}.intro h1{font-size:38px}.preview-panel,.tools-panel{padding:17px}.hand-stage{height:365px}.hand-art{transform:translateY(25px) scale(.82)}.mode{font-size:11px}.preview-footer{font-size:11px}.reflection h2{font-size:29px}footer{font-size:8px;gap:12px}}
 
-/* Basic body styling (can also be done with Tailwind) */
-body {
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* Custom styles for form radio buttons if default Tailwind styles are insufficient */
-/* Example: Customizing radio button appearance (already handled by Tailwind's form-radio) */
-/*
-input[type="radio"].form-radio {
-    appearance: none;
-    background-color: #fff;
-    margin: 0;
-    font: inherit;
-    color: currentColor;
-    width: 1.15em;
-    height: 1.15em;
-    border: 0.15em solid currentColor;
-    border-radius: 50%;
-    transform: translateY(-0.075em);
-    display: grid;
-    place-content: center;
-}
-
-input[type="radio"].form-radio::before {
-    content: "";
-    width: 0.65em;
-    height: 0.65em;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 120ms ease-in-out;
-    box-shadow: inset 1em 1em var(--form-control-color);
-    background-color: CanvasText;
-}
-
-input[type="radio"].form-radio:checked::before {
-    transform: scale(1);
-}
-*/
+/* Görsel iyileştirmeler: parmakların daha net ayrılması ve zarif tırnaklar. */
+.hand-stage{background:radial-gradient(circle at 48% 42%,#ffe9ef 0,#fff6f8 70%)}
+.hand-art{transform:translateY(18px)}
+.nail{border:1.5px solid #d895a0;box-shadow:inset 4px 3px 8px #fff9,inset -3px -4px 8px #9d596122,0 3px 8px #b37a8540}
+.nail::before{content:"";position:absolute;left:19%;top:9%;height:55%;width:17%;border-radius:100%;background:#fff8;transform:rotate(-8deg);pointer-events:none}
+.nail .charm{z-index:1;font-size:14px;filter:drop-shadow(0 1px 1px #80506355)}
+.charm-choice{min-width:76px;min-height:66px;justify-content:center}
+.charm-icon{font-size:22px;line-height:1.25;color:#b55e83}
+.swatches{gap:12px 11px}
+.swatch{width:36px;height:36px}
+@media(max-width:480px){.hand-art{transform:translateY(18px) scale(.82)}}

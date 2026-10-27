@@ -1,286 +1,208 @@
-// Data for various suggestions (recipes, restaurants, etc.)
-// In a real application, this data would likely come from an API or database.
-const data = {
-    // Restaurants for when outside and nearby
-    restaurants: [
-        { name: "The Urban Spoon", cuisine: "Modern American", notes: "Great for a quick lunch!" },
-        { name: "Spice Route Bistro", cuisine: "Indian Fusion", notes: "Known for their curries." },
-        { name: "Pasta Palace", cuisine: "Italian", notes: "Cozy atmosphere, delicious pasta." }
-    ],
-    // Food delivery services for when outside but no restaurant nearby
-    deliveryServices: [
-        { name: "FoodieDash", slogan: "Delivering your favorites fast." },
-        { name: "QuickEats", slogan: "Local and international cuisine at your doorstep." }
-    ],
-    // Quick recipes (under 15 minutes)
-    quickRecipes: [
-        { name: "10-Minute Pesto Pasta", dietary: ["none", "vegetarian"], ingredients: "Pasta, Pesto, Cherry Tomatoes, Parmesan" },
-        { name: "Speedy Scrambled Eggs with Toast", dietary: ["none", "vegetarian"], ingredients: "Eggs, Bread, Butter, Salt, Pepper" },
-        { name: "Tuna Salad Sandwich", dietary: ["none"], ingredients: "Canned Tuna, Mayonnaise, Celery, Bread" },
-        { name: "Cucumber & Hummus Bites", dietary: ["none", "vegetarian", "vegan", "gluten-free"], ingredients: "Cucumber, Hummus, Paprika" },
-        { name: "Avocado Toast with Everything Bagel Seasoning", dietary: ["none", "vegetarian", "vegan"], ingredients: "Bread, Avocado, Everything Bagel Seasoning" }
-    ],
-    // Regular recipes
-    regularRecipes: [
-        { name: "Classic Chicken Stir-fry", dietary: ["none"], ingredients: "Chicken, Mixed Vegetables, Soy Sauce, Rice" },
-        { name: "Lentil Soup (Hearty & Healthy)", dietary: ["none", "vegetarian", "vegan", "gluten-free"], ingredients: "Lentils, Carrots, Celery, Onion, Broth, Spices" },
-        { name: "Homemade Pizza", dietary: ["none", "vegetarian"], ingredients: "Pizza Dough, Tomato Sauce, Cheese, Toppings" },
-        { name: "Baked Salmon with Asparagus", dietary: ["none", "gluten-free"], ingredients: "Salmon fillet, Asparagus, Lemon, Herbs" },
-        { name: "Vegetarian Chili", dietary: ["none", "vegetarian", "vegan", "gluten-free"], ingredients: "Beans, Tomatoes, Corn, Bell Peppers, Chili Powder" }
-    ],
-    // Example shopping list items
-    shoppingListItems: [
-        "Pasta", "Tomato Sauce", "Onions", "Garlic", "Bell Peppers", "Chicken Breast",
-        "Eggs", "Milk", "Bread", "Cheese", "Fresh Vegetables", "Fruit", "Cooking Oil"
-    ]
+'use strict';
+
+// TASARIM AYARLARI: Renkler, boyutlar, konumlar ve kurallar buradan değiştirilebilir.
+const DESIGN = {
+  colours: [
+    {id:'blush',name:'Blush Pink',hex:'#eeb2c3'}, {id:'rose',name:'Dusty Rose',hex:'#ca7793'},
+    {id:'cherry',name:'Cherry Red',hex:'#c63f5c'}, {id:'lilac',name:'Lilac',hex:'#bca8dd'},
+    {id:'cream',name:'Vanilla',hex:'#f5e7cc'}, {id:'mint',name:'Mint',hex:'#a6d4bd'},
+    {id:'peach',name:'Peach',hex:'#efb08f'}, {id:'plum',name:'Plum',hex:'#73536f'},
+    {id:'bubblegum',name:'Bubblegum',hex:'#f17cb3'}, {id:'ballet',name:'Ballet Pink',hex:'#f8d4df'},
+    {id:'burgundy',name:'Burgundy',hex:'#842e48'}, {id:'coral',name:'Coral',hex:'#ff867c'},
+    {id:'lavender',name:'Lavender',hex:'#d7c5f2'}, {id:'blue',name:'Baby Blue',hex:'#b5d7f4'},
+    {id:'sage',name:'Sage',hex:'#a8b99c'}, {id:'white',name:'French White',hex:'#fff8f0'},
+    {id:'mocha',name:'Mocha',hex:'#ab8175'}, {id:'black',name:'Midnight',hex:'#39303e'}
+  ],
+  shapes: [ { id: 'round', name: 'Round' }, { id: 'square', name: 'Square' }, { id: 'almond', name: 'Almond' } ],
+  charms: [
+    {id:'heart',name:'Heart',symbol:'♥'}, {id:'star',name:'Star',symbol:'✦'},
+    {id:'bow',name:'Bow',symbol:'🎀'}, {id:'flower',name:'Flower',symbol:'✿'},
+    {id:'pearl',name:'Pearl',symbol:'●'}, {id:'butterfly',name:'Butterfly',symbol:'🦋'},
+    {id:'cherry',name:'Cherry',symbol:'🍒'}, {id:'diamond',name:'Gem',symbol:'◆'},
+    {id:'moon',name:'Moon',symbol:'☾'}, {id:'sparkle',name:'Sparkle',symbol:'✧'},
+    {id:'daisy',name:'Daisy',symbol:'🌼'}, {id:'clover',name:'Clover',symbol:'♣'}
+  ],
+  positions: [ { id: 'top', name: 'Top' }, { id: 'middle', name: 'Middle' }, { id: 'bottom', name: 'Bottom' } ],
+  nails: [
+    { name: 'Thumb', x: 13.4, y: 63.3, rotation: -38 },
+    { name: 'Index', x: 33.7, y: 31.4, rotation: -3 },
+    { name: 'Middle', x: 48.5, y: 16.8, rotation: 0 },
+    { name: 'Ring', x: 63.2, y: 24.5, rotation: 4 },
+    { name: 'Pinky', x: 78.2, y: 38.4, rotation: 10 }
+  ],
+  capacities: { free: 3, limited: 1 },
+  defaultColour: 'blush',
+  defaultShape: 'round',
+  nailWidthPx: 33,
+  nailHeightPx: 54,
+  feedbackDurationMs: 0, // 0: Mesaj yeni işlem gelene kadar kalır.
+  animationsEnabled: true,
+  resetOnModeChange: true,
+  allowDuplicateCharms: true,
+  freeCapacityBehaviour: 'reject',
+  limitedCapacityBehaviour: 'replace'
 };
 
-// --- Get DOM Elements ---
-const outsideRadios = document.querySelectorAll('input[name="outside"]');
-const restaurantNearbyRadios = document.querySelectorAll('input[name="restaurantNearby"]');
-const ingredientsHomeRadios = document.querySelectorAll('input[name="ingredientsHome"]');
-const hurryRadios = document.querySelectorAll('input[name="hurry"]');
-const dietPreferenceRadios = document.querySelectorAll('input[name="dietPreference"]');
+// STATE: Arayüzden bağımsız uygulama durumu.
+const makeNail = () => ({ colour: DESIGN.defaultColour, shape: DESIGN.defaultShape, decorations: [] });
+const state = {
+  mode: 'free',
+  nails: Array.from({ length: DESIGN.nails.length }, makeNail),
+  selectedNail: 0,
+  pendingCharm: null,
+  selectedPosition: 'middle',
+  message: 'Choose a nail and start creating! ♡'
+};
 
-const restaurantNearbySection = document.getElementById('restaurant-nearby-section');
-const ingredientsAtHomeSection = document.getElementById('ingredients-at-home-section');
-const getSuggestionBtn = document.getElementById('getSuggestionBtn');
-const suggestionOutput = document.getElementById('suggestion-output');
-const suggestionContent = document.getElementById('suggestion-content');
-const errorMessageDiv = document.getElementById('error-message');
-
-const outsideError = document.getElementById('outside-error');
-const restaurantError = document.getElementById('restaurant-error');
-const ingredientsError = document.getElementById('ingredients-error');
-const hurryError = document.getElementById('hurry-error');
-
-
-// --- Event Listeners ---
-
-// Listen for changes on the "Are you outside?" radio buttons
-outsideRadios.forEach(radio => {
-    radio.addEventListener('change', (event) => {
-        const isOutside = event.target.value === 'yes';
-        // Show/hide conditional sections based on "outside" choice
-        if (isOutside) {
-            restaurantNearbySection.classList.remove('hidden');
-            ingredientsAtHomeSection.classList.add('hidden');
-            // Reset ingredients at home radios if switching from "no" to "yes"
-            ingredientsHomeRadios.forEach(r => r.checked = false);
-            ingredientsError.classList.add('hidden'); // Hide any previous error
-        } else {
-            restaurantNearbySection.classList.add('hidden');
-            ingredientsAtHomeSection.classList.remove('hidden');
-            // Reset restaurant nearby radios if switching from "yes" to "no"
-            restaurantNearbyRadios.forEach(r => r.checked = false);
-            restaurantError.classList.add('hidden'); // Hide any previous error
-        }
-        // Hide initial error messages if an option is selected
-        outsideError.classList.add('hidden');
-        suggestionOutput.classList.add('hidden'); // Hide previous suggestion
-    });
-});
-
-// Hide error messages when other radio buttons are selected
-restaurantNearbyRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        restaurantError.classList.add('hidden');
-        suggestionOutput.classList.add('hidden');
-    });
-});
-
-ingredientsHomeRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        ingredientsError.classList.add('hidden');
-        suggestionOutput.classList.add('hidden');
-    });
-});
-
-hurryRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-        hurryError.classList.add('hidden');
-        suggestionOutput.classList.add('hidden');
-    });
-});
-
-// Main button click handler
-getSuggestionBtn.addEventListener('click', () => {
-    generateSuggestion();
-});
-
-
-// --- Core Logic Functions ---
-
-/**
- * Gets the selected value from a group of radio buttons.
- * @param {NodeList} radios - The NodeList of radio button elements.
- * @returns {string | null} The value of the selected radio button, or null if none is selected.
- */
-function getSelectedRadioValue(radios) {
-    for (const radio of radios) {
-        if (radio.checked) {
-            return radio.value;
-        }
-    }
-    return null;
+// RULE: İş kuralları yalnızca durumu değiştirir, HTML üretmez.
+function capacity() { return DESIGN.capacities[state.mode]; }
+function resetNails() {
+  state.nails = Array.from({ length: DESIGN.nails.length }, makeNail);
+  state.selectedNail = 0;
+  state.pendingCharm = null;
+  state.selectedPosition = 'middle';
+}
+function applyColour(colourId) {
+  if (!DESIGN.colours.some(item => item.id === colourId)) return;
+  state.nails[state.selectedNail].colour = colourId;
+  state.message = `Colour updated on ${DESIGN.nails[state.selectedNail].name}.`;
+}
+function applyShape(shapeId) {
+  if (!DESIGN.shapes.some(item => item.id === shapeId)) return;
+  state.nails[state.selectedNail].shape = shapeId;
+  state.message = `Shape updated on ${DESIGN.nails[state.selectedNail].name}.`;
+}
+function applyCharm(charmId, positionId) {
+  if (!DESIGN.charms.some(item => item.id === charmId) || !DESIGN.positions.some(item => item.id === positionId)) return;
+  const decorations = state.nails[state.selectedNail].decorations;
+  const samePositionIndex = decorations.findIndex(item => item.position === positionId);
+  if (samePositionIndex !== -1) {
+    decorations[samePositionIndex] = { charm: charmId, position: positionId };
+    state.message = `Charm replaced at ${positionId} position.`;
+    return;
+  }
+  if (!DESIGN.allowDuplicateCharms && decorations.some(item => item.charm === charmId)) {
+    state.message = 'This charm is already on the selected nail.';
+    return;
+  }
+  if (decorations.length < capacity()) {
+    decorations.push({ charm: charmId, position: positionId });
+    state.message = `Charm added at ${positionId} position!`;
+  } else if (state.mode === 'limited' && DESIGN.limitedCapacityBehaviour === 'replace') {
+    decorations.splice(0, decorations.length, { charm: charmId, position: positionId });
+    state.message = 'Limited Mode: the new charm replaced the old one.';
+  } else {
+    state.message = `Decoration limit reached (${capacity()}). Remove a charm to add another.`;
+  }
+}
+function setMode(nextMode) {
+  if (!Object.hasOwn(DESIGN.capacities, nextMode) || nextMode === state.mode) return;
+  state.mode = nextMode;
+  if (DESIGN.resetOnModeChange) resetNails();
+  state.message = `${nextMode === 'free' ? 'Free' : 'Limited'} Mode started. Your design has been reset.`;
+}
+function removeLastCharm() {
+  const list = state.nails[state.selectedNail].decorations;
+  if (list.length) { list.pop(); state.message = 'Last charm removed.'; }
+  else state.message = 'No charms to remove on this nail.';
 }
 
-/**
- * Generates and displays the meal suggestion based on user inputs.
- */
-function generateSuggestion() {
-    // Hide previous error messages and suggestions
-    errorMessageDiv.classList.add('hidden');
-    suggestionOutput.classList.add('hidden');
-    suggestionContent.innerHTML = ''; // Clear previous content
-
-    // Get all user inputs
-    const isOutside = getSelectedRadioValue(outsideRadios);
-    let hasRestaurantNearby = null;
-    let hasIngredientsHome = null;
-
-    // Conditionally get inputs based on "outside" status
-    if (isOutside === 'yes') {
-        hasRestaurantNearby = getSelectedRadioValue(restaurantNearbyRadios);
-    } else if (isOutside === 'no') {
-        hasIngredientsHome = getSelectedRadioValue(ingredientsHomeRadios);
-    }
-
-    const isInHurry = getSelectedRadioValue(hurryRadios);
-    const dietPreference = getSelectedRadioValue(dietPreferenceRadios); // Will default to 'none' if no other is selected
-
-    // --- Input Validation ---
-    let allInputsValid = true;
-
-    // Validate 'outside' choice
-    if (isOutside === null) {
-        outsideError.classList.remove('hidden');
-        allInputsValid = false;
-    } else {
-        outsideError.classList.add('hidden');
-    }
-
-    // Validate conditional choices based on 'outside'
-    if (isOutside === 'yes' && hasRestaurantNearby === null) {
-        restaurantError.classList.remove('hidden');
-        allInputsValid = false;
-    } else if (isOutside === 'no' && hasIngredientsHome === null) {
-        ingredientsError.classList.remove('hidden');
-        allInputsValid = false;
-    } else {
-        restaurantError.classList.add('hidden'); // Ensure these are hidden if not applicable or valid
-        ingredientsError.classList.add('hidden');
-    }
-
-    // Validate 'hurry' choice
-    if (isInHurry === null) {
-        hurryError.classList.remove('hidden');
-        allInputsValid = false;
-    } else {
-        hurryError.classList.add('hidden');
-    }
-
-    // If any required input is missing, show error and stop
-    if (!allInputsValid) {
-        errorMessageDiv.classList.remove('hidden');
-        return; // Stop function execution
-    }
-
-    let suggestion = "";
-    let recipeList = [];
-
-    // --- First set of logical statements (Location Context) ---
-    if (isOutside === 'yes') { // O = true
-        if (hasRestaurantNearby === 'yes') { // O && R
-            const restaurant = data.restaurants[Math.floor(Math.random() * data.restaurants.length)];
-            suggestion = `<p class="text-xl font-medium text-blue-800">Go to a restaurant!</p>` +
-                         `<p>How about <span class="font-bold">${restaurant.name}</span> (${restaurant.cuisine})? ${restaurant.notes}</p>`;
-        } else { // O && !R
-            const deliveryService = data.deliveryServices[Math.floor(Math.random() * data.deliveryServices.length)];
-            suggestion = `<p class="text-xl font-medium text-blue-800">Order some food!</p>` +
-                         `<p>Consider using a food delivery service like <span class="font-bold">${deliveryService.name}</span>. ${deliveryService.slogan}</p>`;
-        }
-    } else { // !O = true (at home)
-        if (hasIngredientsHome === 'yes') { // !O && I
-            // Will suggest a recipe later based on time/diet
-            suggestion = `<p class="text-xl font-medium text-green-800">Time to cook at home!</p>`;
-        } else { // !O && !I
-            suggestion = `<p class="text-xl font-medium text-green-800">You need to go grocery shopping!</p>` +
-                         `<p>Here's a basic shopping list to get you started:</p>` +
-                         `<ul class="list-disc list-inside mt-2 space-y-1">` +
-                         data.shoppingListItems.map(item => `<li>${item}</li>`).join('') +
-                         `</ul>` +
-                         `<p class="mt-2">Remember to buy ingredients for a few meals you enjoy!</p>`;
-        }
-    }
-
-    // --- Second set of logical statements (Time & Diet Preference) ---
-    // These only apply if the initial suggestion isn't a shopping list or external dining.
-    // They are primarily for filtering recipes.
-    if (isOutside === 'no' && hasIngredientsHome === 'yes') {
-        // Determine base recipe list based on hurry status
-        if (isInHurry === 'yes') { // H = true
-            recipeList = data.quickRecipes;
-            suggestion += `<p class="mt-4 text-lg text-gray-700">Here's a quick recipe for you (under 15 minutes):</p>`;
-        } else { // !H
-            recipeList = data.regularRecipes;
-            suggestion += `<p class="mt-4 text-lg text-gray-700">Here's a recipe idea for you:</p>`;
-        }
-
-        // Filter recipes by dietary preference if applicable
-        let filteredRecipes = [];
-        if (dietPreference && dietPreference !== 'none') { // D = true
-            filteredRecipes = recipeList.filter(recipe => recipe.dietary.includes(dietPreference));
-            if (filteredRecipes.length === 0) {
-                // Fallback if no specific diet preference recipe found
-                suggestion += `<p class="text-orange-600 mt-2">No specific recipes found for "${dietPreference}" in this category. Here's a general suggestion:</p>`;
-                filteredRecipes = recipeList; // Use unfiltered list as fallback
-            } else {
-                suggestion += `<p class="mt-2 text-purple-700">Filtered for your "${dietPreference}" preference:</p>`;
-            }
-        } else { // !D
-            filteredRecipes = recipeList; // Allow free recipe selection
-            suggestion += `<p class="mt-2">Enjoy this meal idea:</p>`;
-        }
-
-        // Pick a random recipe from the filtered list
-        if (filteredRecipes.length > 0) {
-            const chosenRecipe = filteredRecipes[Math.floor(Math.random() * filteredRecipes.length)];
-            suggestion += `<div class="p-4 bg-purple-100 rounded-lg shadow-md mt-4 border border-purple-300">` +
-                          `<h3 class="text-xl font-bold text-purple-900 mb-2">${chosenRecipe.name}</h3>` +
-                          `<p><span class="font-semibold">Main Ingredients:</span> ${chosenRecipe.ingredients}</p>` +
-                          `<p class="text-sm mt-2 text-gray-600">Consider searching for the full recipe online!</p>` +
-                          `</div>`;
-        } else {
-            // This case should ideally not happen if fallback to unfiltered list is done correctly
-            suggestion += `<p class="text-red-500 mt-4">Sorry, I couldn't find a suitable recipe for your criteria.</p>`;
-        }
-    }
-
-    // Display the suggestion
-    suggestionContent.innerHTML = suggestion;
-    suggestionOutput.classList.remove('hidden'); // Show the suggestion area
-
-    // Add visual feedback (e.g., subtle animation or focus)
-    suggestionOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    suggestionOutput.classList.add('animate-pulse-once'); // Define this CSS animation if needed
-    setTimeout(() => {
-        suggestionOutput.classList.remove('animate-pulse-once');
-    }, 1000); // Remove animation class after a short duration
+// OUTPUT: Görsel arayüzü güncelleyen işlevler.
+const $ = id => document.getElementById(id);
+const findColour = id => DESIGN.colours.find(item => item.id === id);
+const findCharm = id => DESIGN.charms.find(item => item.id === id);
+function makeButton(className, text, label, onClick) {
+  const button = document.createElement('button');
+  button.type = 'button'; button.className = className;
+  button.textContent = text; button.setAttribute('aria-label', label);
+  button.addEventListener('click', onClick);
+  return button;
+}
+function renderNails() {
+  const root = $('nailSlots'); root.replaceChildren();
+  state.nails.forEach((nail, index) => {
+    const layout = DESIGN.nails[index];
+    const btn = makeButton('nail', '', `${layout.name}: ${findColour(nail.colour).name}, ${nail.shape}, ${nail.decorations.length} decorations. Select nail.`, () => {
+      state.selectedNail = index; state.message = `${layout.name} selected.`; render();
+    });
+    btn.style.left = `${layout.x}%`; btn.style.top = `${layout.y}%`;
+    btn.style.transform = `translate(-50%, -50%) rotate(${layout.rotation}deg)`;
+    btn.style.setProperty('--nail-colour', findColour(nail.colour).hex);
+    btn.style.width = `${DESIGN.nailWidthPx}px`; btn.style.height = `${DESIGN.nailHeightPx}px`;
+    btn.dataset.shape = nail.shape;
+    btn.classList.toggle('selected', index === state.selectedNail);
+    btn.setAttribute('aria-pressed', String(index === state.selectedNail));
+    nail.decorations.forEach(decoration => {
+      const mark = document.createElement('span'); mark.className = 'charm';
+      mark.dataset.position = decoration.position;
+      mark.textContent = findCharm(decoration.charm).symbol;
+      btn.append(mark);
+    });
+    root.append(btn);
+  });
+}
+function renderTools() {
+  const nail = state.nails[state.selectedNail];
+  const colours = $('colourOptions'); colours.replaceChildren();
+  DESIGN.colours.forEach(item => {
+    const btn = makeButton('swatch', '', item.name, () => { applyColour(item.id); render(); });
+    btn.style.setProperty('--swatch', item.hex);
+    btn.classList.toggle('active', nail.colour === item.id);
+    btn.setAttribute('aria-pressed', String(nail.colour === item.id)); btn.title = item.name;
+    colours.append(btn);
+  });
+  const shapes = $('shapeOptions'); shapes.replaceChildren();
+  DESIGN.shapes.forEach(item => {
+    const btn = makeButton('choice', item.name, item.name, () => { applyShape(item.id); render(); });
+    btn.classList.toggle('active', nail.shape === item.id);
+    btn.setAttribute('aria-pressed', String(nail.shape === item.id)); shapes.append(btn);
+  });
+  const charms = $('charmOptions'); charms.replaceChildren();
+  DESIGN.charms.forEach(item => {
+    const btn = makeButton('choice charm-choice', '', `Select ${item.name} charm`, () => {
+      state.pendingCharm = item.id;
+      state.message = `${item.name} selected. Choose a position below to apply it.`;
+      render();
+    });
+    const icon = document.createElement('span'); icon.className = 'charm-icon'; icon.textContent = item.symbol;
+    const name = document.createElement('span'); name.textContent = item.name;
+    btn.append(icon, name);
+    btn.classList.toggle('active', state.pendingCharm === item.id);
+    btn.setAttribute('aria-pressed', String(state.pendingCharm === item.id)); charms.append(btn);
+  });
+  const positions = $('positionOptions'); positions.replaceChildren();
+  DESIGN.positions.forEach(item => {
+    const btn = makeButton('choice', item.name, `Apply selected charm at ${item.name} position`, () => {
+      state.selectedPosition = item.id;
+      if (!state.pendingCharm) state.message = 'Choose a charm first.';
+      else applyCharm(state.pendingCharm, item.id);
+      render();
+    });
+    btn.classList.toggle('active', state.selectedPosition === item.id);
+    btn.setAttribute('aria-pressed', String(state.selectedPosition === item.id));
+    positions.append(btn);
+  });
+}
+function render() {
+  renderNails(); renderTools();
+  document.querySelectorAll('[data-mode]').forEach(btn => {
+    const active = btn.dataset.mode === state.mode;
+    btn.classList.toggle('active', active); btn.setAttribute('aria-pressed', String(active));
+  });
+  $('selectedLabel').textContent = `Selected: ${DESIGN.nails[state.selectedNail].name}`;
+  $('capacityLabel').textContent = `Decorations: ${state.nails[state.selectedNail].decorations.length} / ${capacity()}`;
+  $('feedback').textContent = state.message;
 }
 
-// Basic animation for visual feedback (add to your style.css if you prefer)
-// Alternatively, include it directly here using a style tag, or assume Tailwind's transitions.
-// For this example, let's just make it a subtle pop effect when appearing.
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes pulse-once {
-    0% { transform: scale(0.98); opacity: 0.8; }
-    50% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-}
-.animate-pulse-once {
-    animation: pulse-once 0.5s ease-out;
-}
-`;
-document.head.appendChild(style);
+// INPUT: Fare, dokunma ve klavye aynı HTML düğmelerini kullanır.
+document.querySelectorAll('[data-mode]').forEach(btn => btn.addEventListener('click', () => { setMode(btn.dataset.mode); render(); }));
+$('cancelSelection').addEventListener('click', () => {
+  state.pendingCharm = null;
+  state.message = 'Charm selection cancelled. Your nail design is unchanged.';
+  render();
+});
+$('resetDesign').addEventListener('click', () => {
+  resetNails(); state.message = 'Design reset. Your current mode is unchanged.'; render();
+});
+$('removeCharm').addEventListener('click', () => { removeLastCharm(); render(); });
+render();
